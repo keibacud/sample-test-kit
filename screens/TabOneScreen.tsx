@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, Alert, TouchableOpacity, ScrollView } from "react-native";
 import { Button, ListItem } from "react-native-elements";
 import LottieView from 'lottie-react-native';
@@ -7,41 +7,79 @@ import { List, TextInput } from 'react-native-paper';
 import Header from "../components/Login/Header";
 import LoginForm from "../components/Login/LoginForm";
 import ViewWithLoading from "../components/ViewWithLoading";
+import axios from "axios";
+
 
 export default function TabOneScreen() {
+  const [num1, setNum1] = useState<string>("0");
+  const [num2, setNum2] = useState<string>("0");
+  const [result, setResult] = useState<string>("");
 
-  const arrays = [1, 2, 3, 4, 5, 23, 7, 93, 9, 10, 11, 12];
-
-  const handlePressItem = (num: number) => {
-    Alert.alert(num.toString());
+  const handleCalculate = () => {
+    const addition = Number(num1) + Number(num2);
+    setResult(addition.toString())
   }
+
+  const handleFetch = () => {
+    fetch('https://fakestoreapi.com/products/1')
+      .then(res => res.json())
+      .then(json => console.log(json))
+  }
+
+  useEffect(() => {
+    const addition = Number(num1) + Number(num2);
+    setResult(addition.toString());
+
+  }, [num1, num2]);
+
+  useEffect(() => {
+    handleFetch();
+  }, []);
 
   return (
     <ViewWithLoading loading={false}>
-      <ScrollView
-        contentContainerStyle={{ flexGrow: 1 }}
-        showsVerticalScrollIndicator={false}
-      >
-        {arrays.map((num: number) => (
-          <ListItem key={num.toString()} bottomDivider
-            onPress={() => {
-              handlePressItem(num);
+      <View style={styles.container}>
+        <View style={styles.inputContainer}>
+          <Text>
+            {result}
+          </Text>
+          <TextInput
+            label="Num1 "
+            value={num1}
+            onChangeText={(text: string) => {
+              setNum1(text);
             }}
-          >
-            <ListItem.Content>
-              <ListItem.Title>
-                {num} This is a title
-              </ListItem.Title>
-              <ListItem.Subtitle>
-                This is a subtitle
-              </ListItem.Subtitle>
-            </ListItem.Content>
-            <ListItem.Chevron tvParallaxProperties />
-          </ListItem>
+            autoComplete={false}
+            keyboardType={"decimal-pad"}
+            mode={"outlined"}
+            autoCapitalize={"none"}
+            autoCorrect={false}
+            autoFocus={true}
+            style={{ marginBottom: 20 }}
+          />
+          <TextInput
+            label="Num2"
+            value={num2.toString()}
+            onChangeText={(text: string) => {
+              setNum2(text);
+            }}
+            autoComplete={false}
+            keyboardType={"decimal-pad"}
+            mode={"outlined"}
+            autoCapitalize={"none"}
+            autoCorrect={false}
+            autoFocus={true}
+            style={{ marginBottom: 20 }}
+          />
 
-        ))}
-
-      </ScrollView>
+          <Button
+            title={"Calculate"}
+            onPress={() => {
+              handleCalculate();
+            }}
+          />
+        </View>
+      </View>
     </ViewWithLoading>
   );
 }
@@ -49,7 +87,13 @@ export default function TabOneScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000',
+    backgroundColor: '#fff',
     justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 20
   },
+  inputContainer: {
+    flex: 0,
+    width: '100%',
+  }
 });
