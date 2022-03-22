@@ -1,72 +1,55 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, Alert, TouchableOpacity } from "react-native";
-import { Button } from "react-native-elements";
+import { View, Text, StyleSheet, Alert, TouchableOpacity, ScrollView } from "react-native";
+import { Button, ListItem } from "react-native-elements";
 import LottieView from 'lottie-react-native';
 import { Entypo } from '@expo/vector-icons';
-import { TextInput } from 'react-native-paper';
+import { List, TextInput } from 'react-native-paper';
 import Header from "../components/Login/Header";
 import LoginForm from "../components/Login/LoginForm";
+import ViewWithLoading from "../components/ViewWithLoading";
 
 export default function TabOneScreen() {
 
+  const arrays = [1, 2, 3, 4, 5, 23, 7, 93, 9, 10, 11, 12];
+
+  const handlePressItem = (num: number) => {
+    Alert.alert(num.toString());
+  }
 
   return (
-    <View
-      style={
-        [
-          styles.container,
-          styles.overrideContainer
-        ]
-      }
-    >
-      {/* header */}
-      <Header />
-      {/* login form */}
-      <LoginForm />
-      {/* footer */}
-      <View style={{
-        height: 50,
-        width: '100%',
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 10,
-        paddingBottom: 20
-      }}>
-        <TouchableOpacity
-          onPress={() => {
-            Alert.alert("Hello World");
-          }}
-        >
-          <Text style={styles.textStyle}>
-            Create an account?
-          </Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+    <ViewWithLoading loading={false}>
+      <ScrollView
+        contentContainerStyle={{ flexGrow: 1 }}
+        showsVerticalScrollIndicator={false}
+      >
+        {arrays.map((num: number) => (
+          <ListItem key={num.toString()} bottomDivider
+            onPress={() => {
+              handlePressItem(num);
+            }}
+          >
+            <ListItem.Content>
+              <ListItem.Title>
+                {num} This is a title
+              </ListItem.Title>
+              <ListItem.Subtitle>
+                This is a subtitle
+              </ListItem.Subtitle>
+            </ListItem.Content>
+            <ListItem.Chevron tvParallaxProperties />
+          </ListItem>
+
+        ))}
+
+      </ScrollView>
+    </ViewWithLoading>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#000',
     justifyContent: 'center',
-    paddingHorizontal: 20
-  },
-  overrideContainer: {
-    paddingHorizontal: 50
-  },
-  headerContainer: {
-    flex: 1,
-  },
-  textStyle: {
-    fontSize: 20,
-    fontFamily: 'poppins-regular'
-  },
-  input: {
-    height: 50,
-    borderWidth: 1,
-    padding: 10,
-    borderRadius: 10
   },
 });
