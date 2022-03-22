@@ -1,91 +1,29 @@
-import React from "react";
-import { View, Image, Text, Dimensions } from "react-native";
+import React, { useState } from "react";
+import { View, Text, StyleSheet, Alert, TouchableOpacity } from "react-native";
+import { Button } from "react-native-elements";
 import LottieView from 'lottie-react-native';
+import { Entypo } from '@expo/vector-icons';
+import { TextInput } from 'react-native-paper';
+import Header from "../components/Login/Header";
+import LoginForm from "../components/Login/LoginForm";
 
 export default function TabOneScreen() {
+
+
   return (
     <View
-      style={{
-        flex: 1,
-        backgroundColor: '#fff',
-        justifyContent: 'center',
-        paddingHorizontal: 20
-      }}
+      style={
+        [
+          styles.container,
+          styles.overrideContainer
+        ]
+      }
     >
-      <View style={{
-        flex: 1,
-      }}>
-        <LottieView
-          source={require('../assets/lottie/39476-login-screen.json')}
-          autoPlay={true}
-          loop={true}
-          style={{
-            flex: 1,
-          }}
-        />
-      </View>
-      <View style={{
-        flex: 1,
-      }}>
-        <View style={{
-          flex: 0
-        }}>
-          <Text>
-            Email
-          </Text>
-          <View style={{
-            height: 50,
-            width: '100%',
-            marginBottom: 20,
-            borderWidth: 1,
-            borderRadius: 10
-          }}>
-
-          </View>
-        </View>
-
-        <View style={{
-          flex: 0,
-          marginBottom: 40
-        }}>
-          <Text>
-            Password
-          </Text>
-          <View style={{
-            height: 50,
-            width: '100%',
-            borderWidth: 1,
-            borderRadius: 10
-          }}>
-
-          </View>
-        </View>
-        <View style={{
-          flex: 0,
-        }}>
-
-          <View style={{
-            flex: 0
-          }}>
-            <View style={{
-              height: 50,
-              width: '100%',
-              justifyContent: 'center',
-              alignItems: 'center',
-              borderRadius: 10,
-              backgroundColor: '#2381EE'
-            }}>
-              <Text style={{
-                fontSize: 18,
-                color: '#fff'
-              }}>
-                Submit
-              </Text>
-            </View>
-          </View>
-        </View>
-
-      </View>
+      {/* header */}
+      <Header />
+      {/* login form */}
+      <LoginForm />
+      {/* footer */}
       <View style={{
         height: 50,
         width: '100%',
@@ -94,12 +32,41 @@ export default function TabOneScreen() {
         borderRadius: 10,
         paddingBottom: 20
       }}>
-        <Text style={{
-          fontSize: 18
-        }}>
-          Create an account?
-        </Text>
+        <TouchableOpacity
+          onPress={() => {
+            Alert.alert("Hello World");
+          }}
+        >
+          <Text style={styles.textStyle}>
+            Create an account?
+          </Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    justifyContent: 'center',
+    paddingHorizontal: 20
+  },
+  overrideContainer: {
+    paddingHorizontal: 50
+  },
+  headerContainer: {
+    flex: 1,
+  },
+  textStyle: {
+    fontSize: 20,
+    fontFamily: 'poppins-regular'
+  },
+  input: {
+    height: 50,
+    borderWidth: 1,
+    padding: 10,
+    borderRadius: 10
+  },
+});
